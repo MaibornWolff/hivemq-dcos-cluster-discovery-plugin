@@ -1,0 +1,30 @@
+:hivemq-downloads: https://www.hivemq.com/downloads
+:hivemq-cluster-discovery: http://develop.hivemq.com/docs/4/hivemq/cluster.html#discovery
+
+== DC/OS Cluster Discovery Extension
+
+*Extension Type*: Integration
+
+*Version*: 0.1
+
+*License*: Apache License 2.0
+
+
+=== Purpose
+
+This HiveMQ extension allows your HiveMQ cluster nodes to discover each other by regularly checking the /endpoints endpoint
+of the DC/OS framework scheduler. This extension works in conjunction with th DC/OS HiveMQ framework by MaibornWolff.
+
+=== Installation
+
+This extension has been build to work with DC/OS. Therefore a manual setup is not necessary. If you want to perform the
+framework's steps manually:
+
+* Download the extension from the {hivemq-downloads}[HiveMQ website^].
+* Copy the content of the zip file to the `extensions` folder of your HiveMQ nodes.
+* Change the {hivemq-cluster-discovery}[discovery mechanism^] of HiveMQ to `extension`.
+
+
+=== Configuration
+The extension reads the address and port of the scheduler from the environment variables `SCHEDULER_API_HOSTNAME` and
+`SCHEDULER_API_PORT` and reads the endpoint /v1/endpoints/tcp-discovery.
