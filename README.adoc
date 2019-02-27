@@ -13,7 +13,7 @@
 === Purpose
 
 This HiveMQ extension allows your HiveMQ cluster nodes to discover each other by regularly checking the /endpoints endpoint
-of the DC/OS framework scheduler. This extension works in conjunction with th DC/OS HiveMQ framework by MaibornWolff.
+of the DC/OS framework scheduler. This extension has been developed to work in conjunction with the DC/OS HiveMQ framework by MaibornWolff.
 
 === Installation
 
@@ -24,7 +24,19 @@ framework's steps manually:
 * Copy the content of the zip file to the `extensions` folder of your HiveMQ nodes.
 * Change the {hivemq-cluster-discovery}[discovery mechanism^] of HiveMQ to `extension`.
 
+=== How It Works
 
-=== Configuration
 The extension reads the address and port of the scheduler from the environment variables `SCHEDULER_API_HOSTNAME` and
-`SCHEDULER_API_PORT` and reads the endpoint /v1/endpoints/tcp-discovery.
+`SCHEDULER_API_PORT` and reads the endpoint http://$SCHEDULER_API_HOSTNAME:$SCHEDULER_API_PORT/v1/endpoints/tcp-discovery. Both environment variables
+are available to all DC/OS tasks by default. The only requirement on the service definition is that the tcp-discovery port
+is announced by the scheduler.
+
+If you want to develop your own framework for DC/OS and you want to utilise this extension, you only have to enable it
+in HiveMQ (see Installation) and include the following in the task definition of svc.yml:
+
+```
+ports:
+    tcp-discovery:
+        port: {{TASKCFG_ALL_DISCOVERY_PORT}}
+        advertise: true
+```
